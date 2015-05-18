@@ -1,10 +1,9 @@
 ### DMP Javascript Automated Tests Documentation
 Documentation v.0.5 - Brian McQueen - MediaMath Cambridge
 
-
-* ##### [Browser Buddy](# class-browserBuddy)
-* ##### [Login Buddy](# class-loginBuddy)
-* ##### [Behavior Buddy](# class-behaviorBuddy)
+* ##### Browser Buddy
+* ##### Login Buddy
+* ##### Behavior Buddy
 
 Note: all testBuddies are located in the "test-buddies" folder adjaced to "tests" folder and must be required at top of test class.
 
