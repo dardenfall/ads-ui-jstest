@@ -94,8 +94,7 @@ test.describe("create segment test", function() {
     test.it("should hit the Add Behavior popup", function(done) {
       browser.findElement(webdriver.By.className("add-behavior-text")).click();
       setTimeout(function() {
-        browser.findElement(webdriver.By.className("w-AddBehavior")).
-          then(function(element) {
+        browser.findElement(webdriver.By.className("w-AddBehavior")).  then(function(element) {
             should.exist(element);
             done();
           });
@@ -134,13 +133,50 @@ test.describe("create segment test", function() {
      var saveButton = browser.findElement(webdriver.By.xpath("//*[@id='save-segment-button']"));
      saveButton.isEnabled().then(function (value) {
        value.should.be_true;
-       saveButton.click();
+       // saveButton.click();
        done();
      });
     })
 
+    test.it("should edit the behavior", function() {
+      behaviorBuddy.editSegment(pixelsToSelect[0]);
+      var behaviorName;
+      var popupTitle;
+      browser.findElement(webdriver.By.className("behavior-name")).getText().then(function(text) {
+        behaviorName = text;
+      });
+      browser.findElement(webdriver.By.className("title")).getText().then(function(text) {
+        popupTitle = text;
+      });
+      setTimeout(function() {
+      ((behaviorName == pixelsToSelect[0]) && (popupTitle == "Edit Behavior")).should.be_true;
+      }, 1000);
+    })
+
+    test.it("should populate the multiselect", function(done) {
+      browser.findElement(webdriver.By.id("add-event-filter")).click();
+      var attributeDropdown = browser.findElement(webdriver.By.className("attribute-options"));
+      var operatorDropdown = browser.findElement(webdriver.By.className("operator-options-include-exclude"));
+      behaviorBuddy.selectFromDropdown(attributeDropdown, "DMA / Media Market");
+      setTimeout(function() {
+        behaviorBuddy.selectFromDropdown(operatorDropdown, "Includes");
+        setTimeout(function() {
+          var chznMultiselectContainer = browser.findElement(webdriver.By.className("value-multiselect-container"));
+          chznMultiselectContainer.click();
+          var chznList = chznMultiselectContainer.findElement(webdriver.By.className("chzn-results"));
+          var chznChild = chznList.findElement(webdriver.By.css(" * "));
+          chznChild.isDisplayed().then(function(value) {
+            value.should.be_true;
+            browser.findElement(webdriver.By.id("cancel-button")).click();
+            done();
+          });
+        }, 3000);
+      }, 3000);
+    })
+
+
     test.it("should have been added to the top", function (done) {
-      behaviorBuddy.exitSegment();
+      // behaviorBuddy.exitSegment();
     })
   })
 });
